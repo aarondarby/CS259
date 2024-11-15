@@ -1,7 +1,7 @@
 //in progress creating template for the project (movie dataset reading, masking, KNN for K=1)
 import java.io.*;
 
-public class GenreOnlyModel {
+public class ManhattanBasic {
 
     // Use we use 'static' for all methods to keep things simple, so we can call those methods main
 
@@ -99,11 +99,11 @@ public class GenreOnlyModel {
         Using this as the distance formula should give a better result than what's in his slide.
      */
     static double manhattan_distance(double[] u, double[] v) {
-         double sum = 0.0;
-         for (int i = 0; i < u.length; i++) {
-             sum += Math.abs(u[i] - v[i]);
-         }
-         return sum;
+        double sum = 0.0;
+        for (int i = 0; i < u.length; i++) {
+            sum += Math.abs(u[i] - v[i]);
+        }
+        return sum;
     }
 
     /*
@@ -179,7 +179,7 @@ public class GenreOnlyModel {
         // if there are more positive labels than negative we return 1, else 0
         for (int i = 0; i < best_matches_index.length; i++) {
             int temp = trainingLabels[ best_matches_index[i] ];
-        //    System.out.println(best_matches_index[i] + " : " + best_matches_num[i]);
+            //    System.out.println(best_matches_index[i] + " : " + best_matches_num[i]);
             if (temp ==1) {
                 num_pos++;
             } else {
@@ -238,23 +238,34 @@ public class GenreOnlyModel {
             return;
         }
 
-        // Compute accuracy on the testing set
-        int correctPredictions = 0;
 
-        // put k value here
-        int k = 3;
+        // stores the best k value and the best prediction
+        int best_k = 0;
+        double best_prediction = 0.0;
 
-        for (int i =0; i<testingData.length; i++) {
-   //         System.out.println(trainingLabels[i] +  " + " +  knnClassify(trainingData,trainingLabels,testingData[i],1));
-            if (testingLabels[i] == knnClassify(trainingData,trainingLabels,testingData[i],k)) {
-                correctPredictions++;
+        // tests for all possible (odd) k values
+        for (int k = 1 ;k< testingData.length; k+=2) {
+            // Compute accuracy on the testing set
+            int correctPredictions = 0;
+
+            for (int i =0; i<testingData.length; i++) {
+                //         System.out.println(trainingLabels[i] +  " + " +  knnClassify(trainingData,trainingLabels,testingData[i],1));
+                if (testingLabels[i] == knnClassify(trainingData,trainingLabels,testingData[i],k)) {
+                    correctPredictions++;
+                }
             }
+
+            double accuracy = (double) correctPredictions / testingData.length * 100;
+
+            if (accuracy> best_prediction) {
+                best_prediction = accuracy;
+                best_k = k;
+            }
+
         }
 
-
-        double accuracy = (double) correctPredictions / testingData.length * 100;
-
-        System.out.printf("A: %.2f%%\n", accuracy);
+        System.out.printf("A: %.2f%%\n", best_prediction);
+        System.out.println("The best k value was " + best_k);
 
     }
 
