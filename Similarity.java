@@ -128,7 +128,14 @@ public class Similarity {
                 mag += Math.pow(d, 2);
             }
             mag = Math.sqrt(mag);  // get vectors magnitude
-            u[i] = v[i];
+
+            double[] d = new double[v[0].length];
+
+            for (int j =0; j<v[i].length; j++) {
+                d[j] = v[i][j];
+            }
+            u[i] = d;
+
             for (int j = 0; j<u[i].length; j++) {
                 u[i][j] /= mag;
             }
@@ -136,5 +143,3 @@ public class Similarity {
     }
 
 }
-
-
