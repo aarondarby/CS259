@@ -4,7 +4,11 @@ import java.io.IOException;
 
 public class Main {
 
-    static int NumberOfFeatures = 5;
+    static int NumberOfFeatures = 6;
+
+    // [0] = Action, [1] = Fantasy, [2] = Romance, [3] = Sci-Fi, [4] = Adventure, [5] = Horror,
+    // [6] = Comedy, [7] = Thriller
+    static double[] odds = new double[8];
 
     static double[] toFeatureVector(double id, String genre, double runtime, double year, double imdb, double rt, double budget, double boxOffice) {
 
@@ -12,26 +16,52 @@ public class Main {
 
         // remove the id as a feature
 
-//        switch (genre) { // We also use represent each movie genre as an integer number:
-//
-//            case "Action":  feature[6] = 1; break;
-//            case "Fantasy":   feature[7] = 1; break;
-//            case "Romance": feature[8] = 1; break;
-//            case "Sci-Fi": feature[9] = 1; break;
-//            case "Adventure": feature[10] = 1; break;
-//            case "Horror": feature[11] = 1; break;
-//            case "Comedy": feature[12] = 1; break;
-//            case "Thriller": feature[13] = 1; break;
-//            default: Assert(false);
-//        }
-        feature[0] = runtime;
-        feature[1] = imdb;
-        feature[2] = rt;
-        feature[3] = budget;
-        feature[4] = boxOffice;
-        //       feature[5] = year;
+        switch (genre) { // We also use represent each movie genre as an integer number:
+            case "Action":  feature[0] = odds[0]; break;
+            case "Fantasy":   feature[0] = odds[1]; break;
+            case "Romance": feature[0] = odds[2]; break;
+            case "Sci-Fi": feature[0] = odds[3]; break;
+            case "Adventure": feature[0] = odds[4]; break;
+            case "Horror": feature[0] = odds[5]; break;
+            case "Comedy": feature[0] = odds[6]; break;
+            case "Thriller": feature[0] = odds[7]; break;
+        }
+
+        feature[1] = runtime;
+        feature[2] = imdb;
+        feature[3] = rt;
+        feature[4] = budget;
+        feature[5] = boxOffice;
+//        feature[6] = year;
 
         return feature;
+    }
+
+    static void loadOdds (String filePath) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            br.readLine(); // skip header line
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                String genre = values[2];
+                int liked = Integer.parseInt(values[11]);
+                if (liked==1) {
+                    switch(genre) {
+                        case "Action":  odds[0] += 1; break;
+                        case "Fantasy":   odds[1] += 1; break;
+                        case "Romance": odds[2] += 1; break;
+                        case "Sci-Fi": odds[3] += 1; break;
+                        case "Adventure": odds[4] += 1; break;
+                        case "Horror": odds[5] += 1; break;
+                        case "Comedy": odds[6] += 1; break;
+                        case "Thriller": odds[7] += 1; break;
+                    }
+                }
+            }
+            for (int i =0; i<odds.length; i++) {
+                odds[i] /= 100;
+            }
+        }
     }
 
     static void loadData(String filePath, double[][] dataFeatures, int[] dataLabels) throws IOException {
@@ -63,8 +93,9 @@ public class Main {
         int[] trainingLabels = new int[100];
         double[][] testingData = new double[100][];
         int[] testingLabels = new int[100];
-
+        
         try {
+            loadOdds("training-set.csv");
             // You may need to change the path:
             loadData("training-set.csv", trainingData, trainingLabels);
             loadData("testing-set.csv", testingData, testingLabels);
@@ -77,6 +108,5 @@ public class Main {
         Manhattan m = new Manhattan(trainingData, trainingLabels, testingData, testingLabels);
         Euclidean e = new Euclidean(trainingData, trainingLabels, testingData, testingLabels);
         Similarity s = new Similarity(trainingData,trainingLabels,testingData,testingLabels);
-
     }
 }
