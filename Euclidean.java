@@ -7,6 +7,8 @@ public class Euclidean {
 
         // tests for all possible (odd) k values
         for (int k = 1 ;k< testingData.length; k+=2) {
+
+
             // Compute accuracy on the testing set
             int correctPredictions = 0;
             for (int i =0; i<testingData.length; i++) {
@@ -16,6 +18,7 @@ public class Euclidean {
             }
 
             double accuracy = (double) correctPredictions / testingData.length * 100;
+//            System.out.println("k value: " + k + "    accuracy:" + accuracy);
             if (accuracy> best_prediction) {
 
                 best_prediction = accuracy;
@@ -44,7 +47,9 @@ public class Euclidean {
         array_sorter(best_matches_index, best_matches_num);
 
         // goes through the rest of the training data
-        for (int i = k; i < trainingData.length; i++) {
+        for(int i = k; i < trainingData.length; i++) {
+
+
             double current_distance = 0.0;
             current_distance = euclidean_distance(testFeature, trainingData[i]);
 
@@ -77,7 +82,6 @@ public class Euclidean {
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double current_distance, int index, int k) {
         if (current_distance == best_matches_num[k-1]) {
-            System.out.println("we have a tie between " + best_matches_index[k-1] + " : " + index);
             double a = Math.random();
             if (a>.5) {
                 best_matches_num[k-1] = current_distance;
