@@ -72,6 +72,16 @@ public class Manhattan {
         So we check if it's smaller than that value and if it is we replapce k-1 with the current distance.
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double current_distance, int index, int k) {
+        if (current_distance == best_matches_num[k-1]) {
+            System.out.println("we have a tie between " + best_matches_index[k-1] + " : " + index);
+            double a = Math.random();
+            if (a>.5) {
+                best_matches_num[k-1] = current_distance;
+                best_matches_index[k-1] = index;
+                array_sorter(best_matches_index,best_matches_num);
+            }
+        }
+
         if (current_distance < best_matches_num[k - 1]) {
             best_matches_num[k - 1] = current_distance;
             best_matches_index[k - 1] = index;
@@ -115,6 +125,5 @@ public class Manhattan {
         }
         return sum;
     }
-
 
 }
