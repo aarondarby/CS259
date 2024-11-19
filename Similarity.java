@@ -22,6 +22,7 @@ public class Similarity {
             }
 
             double accuracy = (double) correctPredictions / testingData.length * 100;
+//            System.out.println("k value: " + k + "    accuracy:" + accuracy);
             if (accuracy> best_prediction) {
 
                 best_prediction = accuracy;
@@ -87,7 +88,6 @@ public class Similarity {
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double similarity, int index, int k) {
         if (similarity == best_matches_num[0]) {
-            System.out.println("we have a tie between " + best_matches_index[0] + " : " + index);
             double a = Math.random();
             if (a>.5) {
                 best_matches_num[0] = similarity;
