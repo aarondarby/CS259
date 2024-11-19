@@ -16,6 +16,7 @@ public class Manhattan {
             }
 
             double accuracy = (double) correctPredictions / testingData.length * 100;
+//            System.out.println("k value: " + k + "    accuracy:" + accuracy);
             if (accuracy> best_prediction) {
 
                 best_prediction = accuracy;
@@ -73,7 +74,6 @@ public class Manhattan {
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double current_distance, int index, int k) {
         if (current_distance == best_matches_num[k-1]) {
-            System.out.println("we have a tie between " + best_matches_index[k-1] + " : " + index);
             double a = Math.random();
             if (a>.5) {
                 best_matches_num[k-1] = current_distance;
