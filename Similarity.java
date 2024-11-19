@@ -11,8 +11,6 @@ public class Similarity {
         to_unit_vector(trainingData,trainingData_unit);
         to_unit_vector(testingData,testingData_unit);
 
-
-
         // tests for all possible (odd) k values
         for (int k = 1 ;k< testingData.length; k+=2) {
             // Compute accuracy on the testing set
@@ -88,6 +86,16 @@ public class Similarity {
         So we check if it's larger than the value at [0] and if it is we add it
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double similarity, int index, int k) {
+        if (similarity == best_matches_num[0]) {
+            System.out.println("we have a tie between " + best_matches_index[0] + " : " + index);
+            double a = Math.random();
+            if (a>.5) {
+                best_matches_num[0] = similarity;
+                best_matches_index[0] = index;
+                array_sorter(best_matches_index,best_matches_num);
+            }
+        }
+
         if (similarity > best_matches_num[0]) {
             best_matches_num[0] = similarity;
             best_matches_index[0] = index;
@@ -141,5 +149,4 @@ public class Similarity {
             }
         }
     }
-
 }
