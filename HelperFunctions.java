@@ -87,10 +87,9 @@ public class Main {
     }
 
     /*
-        Returns the bayes probability. 
-        odds is set to .5 as there are 50 liked and 50 not liked 
+        Returns the bayes probability.
+        odds is set to .5 as there are 50 liked and 50 not liked
      */
-
     static double returnBayes(double[] testingData) {
         double odds = 0.5;
         if (testingData[10] > runtimeQuartiles[2]) {
@@ -242,7 +241,9 @@ public class Main {
 
     }
 
-
+    /*
+        Takes the filepath of the training data.
+     */
     static void loadOdds(String filePath) throws IOException {
 
         double[] runTimeArray = new double[100];
