@@ -33,14 +33,30 @@ public class Main {
         // remove the id as a feature
 
         switch (genre) { // We also use represent each movie genre as an integer number:
-            case "Action":  feature[0] = odds[0]; break;
-            case "Fantasy":   feature[0] = odds[1]; break;
-            case "Romance": feature[0] = odds[2]; break;
-            case "Sci-Fi": feature[0] = odds[3]; break;
-            case "Adventure": feature[0] = odds[4]; break;
-            case "Horror": feature[0] = odds[5]; break;
-            case "Comedy": feature[0] = odds[6]; break;
-            case "Thriller": feature[0] = odds[7]; break;
+            case "Action":
+                feature[0] = odds[0];
+                break;
+            case "Fantasy":
+                feature[0] = odds[1];
+                break;
+            case "Romance":
+                feature[0] = odds[2];
+                break;
+            case "Sci-Fi":
+                feature[0] = odds[3];
+                break;
+            case "Adventure":
+                feature[0] = odds[4];
+                break;
+            case "Horror":
+                feature[0] = odds[5];
+                break;
+            case "Comedy":
+                feature[0] = odds[6];
+                break;
+            case "Thriller":
+                feature[0] = odds[7];
+                break;
         }
 
 
@@ -48,9 +64,9 @@ public class Main {
         // puts the odds of a 1 label into feature[1]
         if (runtime > runtimeQuartiles[2]) {
             feature[1] = oddsRunTime[3];
-        } else if (runtime >runtimeQuartiles[1]) {
+        } else if (runtime > runtimeQuartiles[1]) {
             feature[1] = oddsRunTime[2];
-        } else if (runtime >runtimeQuartiles[0]) {
+        } else if (runtime > runtimeQuartiles[0]) {
             feature[1] = oddsRunTime[1];
         } else {
             feature[1] = oddsRunTime[0];
@@ -68,9 +84,9 @@ public class Main {
 
         if (imdb > imdbQuartiles[2]) {
             feature[3] = oddsImdb[3];
-        } else if (imdb >imdbQuartiles[1]) {
+        } else if (imdb > imdbQuartiles[1]) {
             feature[3] = oddsImdb[2];
-        } else if (imdb >imdbQuartiles[0]) {
+        } else if (imdb > imdbQuartiles[0]) {
             feature[3] = oddsImdb[1];
         } else {
             feature[3] = oddsImdb[0];
@@ -78,9 +94,9 @@ public class Main {
 
         if (rt > rottenTomatoesQuartiles[2]) {
             feature[4] = oddsRottenTomatoes[3];
-        } else if (rt >rottenTomatoesQuartiles[1]) {
+        } else if (rt > rottenTomatoesQuartiles[1]) {
             feature[4] = oddsRottenTomatoes[2];
-        } else if (rt >rottenTomatoesQuartiles[0]) {
+        } else if (rt > rottenTomatoesQuartiles[0]) {
             feature[4] = oddsRottenTomatoes[1];
         } else {
             feature[4] = oddsRottenTomatoes[0];
@@ -98,9 +114,9 @@ public class Main {
 
         if (boxOffice > boxOfficeQuartiles[2]) {
             feature[6] = oddsBoxOffice[3];
-        } else if (budget >boxOfficeQuartiles[1]) {
+        } else if (budget > boxOfficeQuartiles[1]) {
             feature[6] = oddsBoxOffice[2];
-        } else if (budget >boxOfficeQuartiles[0]) {
+        } else if (budget > boxOfficeQuartiles[0]) {
             feature[6] = oddsBoxOffice[1];
         } else {
             feature[6] = oddsBoxOffice[0];
@@ -108,7 +124,6 @@ public class Main {
 
         return feature;
     }
-
 
 
     /*
@@ -181,6 +196,13 @@ public class Main {
         int[] temp = new int[4];
 
 
+        arraySorter(runTimeArraySorted);
+        arraySorter(rottenTomatoesSorted);
+        arraySorter(imdbSorted);
+        arraySorter(budgetSorted);
+        arraySorter(boxOfficeSorted);
+
+
         // Q2
         double q2 = (runTimeArraySorted[50] + runTimeArraySorted[49]) / 2;
         runtimeQuartiles[1] = q2;
@@ -194,25 +216,25 @@ public class Main {
         // find the odds associated with each bin
         for (int i = 0; i < runTimeArray.length; i++) {
             if (runTimeArray[i] >= runtimeQuartiles[2]) {
-                if (labels[i] ==1) {
+                if (labels[i] == 1) {
                     oddsRunTime[3]++;
                 } else {
                     temp[3]++;
                 }
             } else if (runTimeArray[i] >= runtimeQuartiles[1]) {
-                if (labels[i] ==1) {
+                if (labels[i] == 1) {
                     oddsRunTime[2]++;
                 } else {
                     temp[2]++;
                 }
             } else if (runTimeArray[i] >= runtimeQuartiles[0]) {
-                if (labels[i]==1) {
+                if (labels[i] == 1) {
                     oddsRunTime[1]++;
                 } else {
                     temp[1]++;
                 }
             } else {
-                if (labels[i] ==1) {
+                if (labels[i] == 1) {
                     oddsRunTime[0]++;
                 } else {
                     temp[0]++;
@@ -221,56 +243,13 @@ public class Main {
             }
         }
 
-        for (int i =0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             temp[i] += oddsRunTime[i];
         }
 
-        for (int i= 0; i<4; i++) {
+        for (int i = 0; i < 4; i++) {
             oddsRunTime[i] /= temp[i];
             temp[i] = 0;
-        }
-
-
-        /*
-        YEAR
-         */
-        // Q2
-        q2 = (yearSorted[50] + yearSorted[49]) / 2;
-        yearQuartiles[1] = q2;
-        // Q1
-        q1 = (yearSorted[25] + yearSorted[24]) / 2;
-        yearQuartiles[0] = q1;
-        // Q3
-        q3 = (yearSorted[75] + yearSorted[74]) / 2;
-        yearQuartiles[2] = q3;
-
-        // find the odds associated with each bin
-        for (int i = 0; i < 100; i++) {
-            if (yearArray[i] >= yearQuartiles[2]) {
-                if (labels[i] == 1) {
-                    oddsYear[3]++;
-                } else {
-                    temp[3]++;
-                }
-            } else if (yearArray[i] >= yearQuartiles[1]) {
-                if (labels[i] ==1) {
-                    oddsYear[2]++;
-                } else {
-                    temp[2]++;
-                }
-            } else if (yearArray[i] >= yearQuartiles[0]) {
-                if (labels[i] == 1) {
-                    oddsYear[1]++;
-                } else {
-                    temp[1]++;
-                }
-            } else {
-                if (labels[i]==1) {
-                    oddsYear[0]++;
-                } else{
-                    temp[0]++;
-                }
-            }
         }
 
 
@@ -289,17 +268,44 @@ public class Main {
 
         // find the odds associated with each bin
         for (int i = 0; i < 100; i++) {
-            if (rottenTomatoesArray[i] >= rottenTomatoesQuartiles[2] && labels[i] == 1) {
-                oddsRottenTomatoes[3]++;
-            } else if (rottenTomatoesArray[i] >= rottenTomatoesQuartiles[1] && labels[i] == 1) {
-                oddsRottenTomatoes[2]++;
-            } else if (rottenTomatoesArray[i] >= rottenTomatoesQuartiles[0] && labels[i] == 1) {
-                oddsRottenTomatoes[1]++;
+            if (rottenTomatoesArray[i] >= rottenTomatoesQuartiles[2]) {
+                if (labels[i] == 1) {
+                    oddsRottenTomatoes[3]++;
+                } else {
+                    temp[3]++;
+                }
+
+            } else if (rottenTomatoesArray[i] >= rottenTomatoesQuartiles[1]) {
+                if (labels[i] == 1) {
+                    oddsRottenTomatoes[2]++;
+                } else {
+                    temp[2]++;
+                }
+
+
+            } else if (rottenTomatoesArray[i] >= rottenTomatoesQuartiles[0]) {
+                if (labels[i] == 1) {
+                    oddsRottenTomatoes[1]++;
+                } else {
+                    temp[1]++;
+                }
             } else if (labels[i] == 1) {
-                oddsRottenTomatoes[0]++;
+                if (labels[i] == 1) {
+                    oddsRottenTomatoes[0]++;
+                } else {
+                    temp[0]++;
+                }
             }
         }
 
+        for (int i = 0; i < 4; i++) {
+            temp[i] += oddsRottenTomatoes[i];
+        }
+
+        for (int i = 0; i < 4; i++) {
+            oddsRottenTomatoes[i] /= temp[i];
+            temp[i] = 0;
+        }
 
         /*
         IMDB
@@ -316,15 +322,43 @@ public class Main {
 
         // find the odds associated with each bin
         for (int i = 0; i < 100; i++) {
-            if (imdbArray[i] >= imdbQuartiles[2] && labels[i] == 1) {
-                oddsImdb[3]++;
-            } else if (imdbArray[i] >= imdbQuartiles[1] && labels[i] == 1) {
-                oddsImdb[2]++;
-            } else if (imdbArray[i] >= imdbQuartiles[0] && labels[i] == 1) {
-                oddsImdb[1]++;
-            } else if (labels[i] == 1) {
-                oddsImdb[0]++;
+            if (imdbArray[i] >= imdbQuartiles[2]) {
+                if (labels[i] == 1) {
+                    oddsImdb[3]++;
+                } else {
+                    temp[3]++;
+                }
+
+            } else if (imdbArray[i] >= imdbQuartiles[1]) {
+                if (labels[i] == 1) {
+                    oddsImdb[2]++;
+                } else {
+                    temp[2]++;
+                }
+            } else if (imdbArray[i] >= imdbQuartiles[0]) {
+                if (labels[i] == 1) {
+                    oddsImdb[1]++;
+                } else {
+                    temp[1]++;
+                }
+
+            } else {
+                if (labels[i] == 1) {
+                    oddsImdb[0]++;
+                } else {
+                    temp[0]++;
+                }
+
             }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            temp[i] += oddsImdb[i];
+        }
+
+        for (int i = 0; i < 4; i++) {
+            oddsImdb[i] /= temp[i];
+            temp[i] = 0;
         }
 
         /*
@@ -342,15 +376,44 @@ public class Main {
 
         // find the odds associated with each bin
         for (int i = 0; i < 100; i++) {
-            if (budgetArray[i] >= budgetQuartiles[2] && labels[i] == 1) {
-                oddsBudget[3]++;
-            } else if (budgetArray[i] >= budgetQuartiles[1] && labels[i] == 1) {
-                oddsBudget[2]++;
-            } else if (budgetArray[i] >= budgetQuartiles[0] && labels[i] == 1) {
-                oddsBudget[1]++;
-            } else if (labels[i] == 1) {
-                oddsBudget[0]++;
+            if (budgetArray[i] >= budgetQuartiles[2]) {
+                if (labels[i] == 1) {
+                    oddsBudget[3]++;
+                } else {
+                    temp[3]++;
+                }
+
+            } else if (budgetArray[i] >= budgetQuartiles[1]) {
+                if (labels[i] == 1) {
+                    oddsBudget[2]++;
+                } else {
+                    temp[2]++;
+                }
+
+            } else if (budgetArray[i] >= budgetQuartiles[0]) {
+                if (labels[i] == 1) {
+                    oddsBudget[1]++;
+                } else {
+                    temp[1]++;
+                }
+
+            } else {
+                if (labels[i] == 1) {
+                    oddsBudget[0]++;
+                } else {
+                    temp[0]++;
+                }
+
             }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            temp[i] += oddsBudget[i];
+        }
+
+        for (int i = 0; i < 4; i++) {
+            oddsBudget[i] /= temp[i];
+            temp[i] = 0;
         }
 
         /*
@@ -368,18 +431,48 @@ public class Main {
 
         // find the odds associated with each bin
         for (int i = 0; i < 100; i++) {
-            if (boxOfficeArray[i] >= boxOfficeQuartiles[2] && labels[i] == 1) {
-                oddsBoxOffice[3]++;
-            } else if (boxOfficeArray[i] >= boxOfficeQuartiles[1] && labels[i] == 1) {
-                oddsBoxOffice[2]++;
-            } else if (boxOfficeArray[i] >= boxOfficeQuartiles[0] && labels[i] == 1) {
-                oddsBoxOffice[1]++;
-            } else if (labels[i] == 1) {
-                oddsBoxOffice[0]++;
+            if (boxOfficeArray[i] >= boxOfficeQuartiles[2]) {
+                if (labels[i] == 1) {
+                    oddsBoxOffice[3]++;
+                } else {
+                    temp[3]++;
+                }
+
+            } else if (boxOfficeArray[i] >= boxOfficeQuartiles[1]) {
+                if (labels[i] == 1) {
+                    oddsBoxOffice[2]++;
+                } else {
+                    temp[2]++;
+                }
+
+            } else if (boxOfficeArray[i] >= boxOfficeQuartiles[0]) {
+                if (labels[i] == 1) {
+                    oddsBoxOffice[1]++;
+                } else {
+                    temp[1]++;
+                }
+
+            } else {
+                if (labels[i] == 1) {
+                    oddsBoxOffice[0]++;
+                } else {
+                    temp[0]++;
+                }
+
             }
+        }
+        for (int i = 0; i < 4; i++) {
+            temp[i] += oddsBoxOffice[i];
+        }
+
+        for (int i = 0; i < 4; i++) {
+            oddsBoxOffice[i] /= temp[i];
+            temp[i] = 0;
         }
 
     }
+
+
 
     static void arraySorter(double[] d) {
         int n = d.length;
@@ -515,10 +608,6 @@ public class Main {
             System.out.println("Error reading data files: " + e.getMessage());
             return;
         }
-
-
-
-
 
         Manhattan m = new Manhattan(trainingData, trainingLabels, testingData, testingLabels);
         Euclidean e = new Euclidean(trainingData, trainingLabels, testingData, testingLabels);
