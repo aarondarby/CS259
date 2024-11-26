@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -176,6 +178,9 @@ public class Main {
         arraySorter(budgetSorted);
         arraySorter(boxOfficeSorted);
 
+        int[] temp = new int[4];
+
+
         // Q2
         double q2 = (runTimeArraySorted[50] + runTimeArraySorted[49]) / 2;
         runtimeQuartiles[1] = q2;
@@ -188,16 +193,43 @@ public class Main {
 
         // find the odds associated with each bin
         for (int i = 0; i < runTimeArray.length; i++) {
-            if (runTimeArray[i] >= runtimeQuartiles[2] && labels[i] == 1) {
-                oddsRunTime[3]++;
-            } else if (runTimeArray[i] >= runtimeQuartiles[1] && labels[i] == 1) {
-                oddsRunTime[2]++;
-            } else if (runTimeArray[i] >= runtimeQuartiles[0] && labels[i] == 1) {
-                oddsRunTime[1]++;
-            } else if (labels[i] == 1) {
-                oddsRunTime[0]++;
+            if (runTimeArray[i] >= runtimeQuartiles[2]) {
+                if (labels[i] ==1) {
+                    oddsRunTime[3]++;
+                } else {
+                    temp[3]++;
+                }
+            } else if (runTimeArray[i] >= runtimeQuartiles[1]) {
+                if (labels[i] ==1) {
+                    oddsRunTime[2]++;
+                } else {
+                    temp[2]++;
+                }
+            } else if (runTimeArray[i] >= runtimeQuartiles[0]) {
+                if (labels[i]==1) {
+                    oddsRunTime[1]++;
+                } else {
+                    temp[1]++;
+                }
+            } else {
+                if (labels[i] ==1) {
+                    oddsRunTime[0]++;
+                } else {
+                    temp[0]++;
+                }
+
             }
         }
+
+        for (int i =0; i<4; i++) {
+            temp[i] += oddsRunTime[i];
+        }
+
+        for (int i= 0; i<4; i++) {
+            oddsRunTime[i] /= temp[i];
+            temp[i] = 0;
+        }
+
 
         /*
         YEAR
@@ -214,14 +246,30 @@ public class Main {
 
         // find the odds associated with each bin
         for (int i = 0; i < 100; i++) {
-            if (yearArray[i] >= yearQuartiles[2] && labels[i] == 1) {
-                oddsYear[3]++;
-            } else if (yearArray[i] >= yearQuartiles[1] && labels[i] == 1) {
-                oddsYear[2]++;
-            } else if (yearArray[i] >= yearQuartiles[0] && labels[i] == 1) {
-                oddsYear[1]++;
-            } else if (labels[i] == 1) {
-                oddsYear[0]++;
+            if (yearArray[i] >= yearQuartiles[2]) {
+                if (labels[i] == 1) {
+                    oddsYear[3]++;
+                } else {
+                    temp[3]++;
+                }
+            } else if (yearArray[i] >= yearQuartiles[1]) {
+                if (labels[i] ==1) {
+                    oddsYear[2]++;
+                } else {
+                    temp[2]++;
+                }
+            } else if (yearArray[i] >= yearQuartiles[0]) {
+                if (labels[i] == 1) {
+                    oddsYear[1]++;
+                } else {
+                    temp[1]++;
+                }
+            } else {
+                if (labels[i]==1) {
+                    oddsYear[0]++;
+                } else{
+                    temp[0]++;
+                }
             }
         }
 
@@ -355,25 +403,73 @@ public class Main {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             br.readLine(); // skip header line
+            int temp[] = new int[8];
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
                 String genre = values[2];
                 int liked = Integer.parseInt(values[11]);
-                if (liked==1) {
+
                     switch(genre) {
-                        case "Action":  odds[0] += 1; break;
-                        case "Fantasy":   odds[1] += 1; break;
-                        case "Romance": odds[2] += 1; break;
-                        case "Sci-Fi": odds[3] += 1; break;
-                        case "Adventure": odds[4] += 1; break;
-                        case "Horror": odds[5] += 1; break;
-                        case "Comedy": odds[6] += 1; break;
-                        case "Thriller": odds[7] += 1; break;
+                        case "Action":
+                            if (liked==1) {
+                                odds[0] += 1;
+                                temp[0]++;
+                            } else {
+                                temp[0] += 1;
+                            } break;
+                        case "Fantasy":
+                            if (liked==1) {
+                                odds[1] += 1;
+                                temp[1] += 1;
+                            } else {
+                                temp[1] += 1;
+                            } break;
+                        case "Romance":
+                            if (liked==1) {
+                                odds[2] += 1;
+                                temp[2] += 1;
+                            } else {
+                                temp[2] += 1;
+                            } break;
+                        case "Sci-Fi":
+                            if (liked==1) {
+                                odds[3] += 1;
+                                temp[3] += 1;
+                            } else {
+                                temp[3] += 1;
+                            } break;
+                        case "Adventure":
+                            if (liked==1) {
+                                odds[4] += 1;
+                                temp[4] += 1;
+                            } else {
+                                temp[4] += 1;
+                            } break;
+                        case "Horror":
+                            if (liked==1) {
+                                odds[5] += 1;
+                                temp[5] += 1;
+                            } else {
+                                temp[5] += 1;
+                            } break;
+                        case "Comedy":
+                            if (liked==1) {
+                                odds[6] += 1;
+                                temp[6] += 1;
+                            } else {
+                                temp[6] += 1;
+                            } break;
+                        case "Thriller":
+                            if (liked==1) {
+                                odds[7] += 1;
+                                temp[7] += 1;
+                            } else {
+                                temp[7] += 1;
+                            } break;
                     }
-                }
             }
             for (int i =0; i<odds.length; i++) {
-                odds[i] /= 100;
+                odds[i] /= temp[i];
             }
         }
     }
