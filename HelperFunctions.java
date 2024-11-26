@@ -5,12 +5,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
     }
-    // has the odds of each quartile of runtime [0]=Q1, [1]=Q2, [2]=Q3, [3]=Q4
     static double[] oddsRunTime = new double[4];
-    // Quartiles store the number where the quartile kicks in so if the number is greater than the number in [2] then it's in the 4th Quartile
-    // if the number is greater than the number in [1] then it's in the 3rd quartile
-    // if the number is greater than the number in [0] then it's in the 2nd quartile
-    // else it's in the 1st quartile
     static double[] runtimeQuartiles = new double[3];
     static double[] oddsRottenTomatoes = new double[4];
     static double[] rottenTomatoesQuartiles = new double[3];
@@ -78,6 +73,73 @@ public class Main {
             d[i] = d[min_idx];
             d[min_idx] = temp;
         }
+    }
+
+    static double returnBayes() {
+        double odds = 0.0;
+        if (runtime > runtimeQuartiles[2]) {
+            odds+= oddsRunTime[3];
+        } else if (runtime >runtimeQuartiles[1]) {
+            odds += oddsRunTime[2];
+        } else if (runtime >runtimeQuartiles[0]) {
+            odds += oddsRunTime[1];
+        } else {
+            odds += oddsRunTime[0];
+        }
+
+        if (odds==0) System.out.println("There's an issue");
+
+        if (rt > rottenTomatoesQuartiles[2]) {
+            odds*= oddsRottenTomatoes[3];
+        } else if (rt >rottenTomatoesQuartiles[1]) {
+            odds *= oddsRottenTomatoes[2];
+        } else if (rt >rottenTomatoesQuartiles[0]) {
+            odds *= oddsRottenTomatoes[1];
+        } else {
+            odds *= oddsRunTime[0];
+        }
+
+        if (odds==0) System.out.println("There's an issue");
+
+        if (imdb > imdbQuartiles[2]) {
+            odds*= oddsImdb[3];
+        } else if (imdb >imdbQuartiles[1]) {
+            odds *= oddsImdb[2];
+        } else if (imdb >imdbQuartiles[0]) {
+            odds *= oddsImdb[1];
+        } else {
+            odds *= oddsImdb[0];
+        }
+
+        if (odds==0) System.out.println("There's an issue");
+
+        if (budget > budgetQuartiles[2]) {
+            odds*= oddsBudget[3];
+        } else if (budget >budgetQuartiles[1]) {
+            odds *= oddsBudget[2];
+        } else if (budget >budgetQuartiles[0]) {
+            odds *= oddsBudget[1];
+        } else {
+            odds *= oddsBudget[0];
+        }
+
+        if (odds==0) System.out.println("There's an issue");
+
+        if (boxoffice > boxOfficeQuartiles[2]) {
+            odds*= oddsBoxOffice[3];
+        } else if (boxoffice >boxOfficeQuartiles[1]) {
+            odds *= oddsBoxOffice[2];
+        } else if (boxoffice >boxOfficeQuartiles[0]) {
+            odds *= oddsBoxOffice[1];
+        } else {
+            odds *= oddsBoxOffice[0];
+        }
+
+        if (odds==0) System.out.println("There's an issue");
+
+        return odds;
+
+
     }
 
 
