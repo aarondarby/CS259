@@ -120,22 +120,22 @@ public class Tests {
 
         switch (genre) { // We also use represent each movie genre as an integer number:
             case "Action":  feature[0] = 1; break;
-            case "Fantasy":   feature[1] = 0; break;
-            case "Romance": feature[2] = 0; break;
-            case "Sci-Fi": feature[3] = 0; break;
-            case "Adventure": feature[4] = 1; break;
-            case "Horror": feature[5] = 0; break;
-            case "Comedy": feature[6] = 1; break;
-            case "Thriller": feature[7] = 1; break;
+            case "Fantasy":   feature[0] = 0; break;
+            case "Romance": feature[0] = 0; break;
+            case "Sci-Fi": feature[0] = 0; break;
+            case "Adventure": feature[0] = 1; break;
+            case "Horror": feature[0] = 0; break;
+            case "Comedy": feature[0] = 1; break;
+            case "Thriller": feature[0] = 1; break;
             default: Assert(false);
         }
 //
-        feature[8] = (imdb>=7.8)? 1 : 0;
-        feature[9] = (rt>=85)? 1 : 0;
-        feature[10] = ( (boxOffice-budget) <= -3)? 1 : 0;
-        feature[11] = ( runtime>=111 && runtime<=123)? 1 : 0;
-//        feature[12] = (boxOffice>=102)? 1 : 0;
-//        feature[13] = (budget >= 128)? 1 : 0;
+        feature[1] = (imdb>=7.8)? 1 : 0;
+        feature[2] = (rt>=85)? 1 : 0;
+  //      feature[3] = ( (boxOffice-budget) <= -3)? 1 : 0;
+        feature[4] = ( runtime>=111 && runtime<=123)? 1 : 0;
+        feature[5] = (boxOffice>=102)? 1 : 0;
+        feature[6] = (budget >= 128)? 1 : 0;
 
 //        feature[14] = director.matches("Christopher Nolan||" +
 //                "George Miller||James Wan||John Woo||Jon Favreau||Jordan Peele||Kathryn Bigelow||" +
@@ -293,13 +293,5 @@ public class Tests {
             System.out.println("For k value: " + k + " accuracy was: " + accuracy);
             correctPredictions = 0;
         }
-
-
-
     }
-
 }
-
-
-
-
