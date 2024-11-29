@@ -1,7 +1,10 @@
 public class Similarity {
 
+    /*
+        Will find change the vectors into unit vectors and then find the vectors with the closest similarities
+        via the dot product function
+     */
     public Similarity(double[][] trainingData, int[] trainingLabels, double[][] testingData, int[] testingLabels) {
-        // stores the best k value and the best prediction
         int best_k = 0;
         double best_prediction = 0.0;
 
@@ -13,7 +16,6 @@ public class Similarity {
 
         // tests for all possible (odd) k values
         for (int k = 1 ;k< testingData.length; k+=2) {
-            // Compute accuracy on the testing set
             int correctPredictions = 0;
             for (int i =0; i<testingData.length; i++) {
                 if (testingLabels[i] == knnClassify(trainingData_unit,trainingLabels,testingData_unit[i],k)) {
@@ -22,9 +24,8 @@ public class Similarity {
             }
 
             double accuracy = (double) correctPredictions / testingData.length * 100;
-//            System.out.println("k value: " + k + "    accuracy:" + accuracy);
-            if (accuracy> best_prediction) {
 
+            if (accuracy> best_prediction) {
                 best_prediction = accuracy;
                 best_k = k;
             }
@@ -69,8 +70,8 @@ public class Similarity {
             else {num_neg++;}
         }
 
-        if (num_pos > num_neg) {return 1;}
-        else {return 0;}
+        if (num_pos > num_neg) return 1;
+        else return 0;
     }
 
     static double dot(double[] U, double[] V) { // dot product of two vectors
@@ -87,6 +88,7 @@ public class Similarity {
         So we check if it's larger than the value at [0] and if it is we add it
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double similarity, int index, int k) {
+        // if there are two neighbours with the same similarity, then flip a coin to see which one we keep
         if (similarity == best_matches_num[0]) {
             double a = Math.random();
             if (a>.5) {
@@ -129,6 +131,11 @@ public class Similarity {
         }
     }
 
+
+    /*
+        Takes in vectors v and u,
+        then changes u to the unit vector of v, leaving v intact and unchanged
+     */
     static void to_unit_vector(double[][] v, double[][] u) {
         for (int i = 0; i < v.length; i++) {
             double mag = 0.0;
