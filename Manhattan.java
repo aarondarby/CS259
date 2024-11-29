@@ -1,7 +1,11 @@
 public class Manhattan {
 
+    /*
+        Will use the Manhattan distance to calculate the distance between training vectors and the
+        vector being tested. The sums with the smallest distance are the closest, these vectors will
+        then be used to predict whether the film will be liked.
+     */
     public Manhattan(double[][] trainingData, int[] trainingLabels, double[][] testingData, int[] testingLabels) {
-        // stores the best k value and the best prediction
         int best_k = 0;
         double best_prediction = 0.0;
 
@@ -16,9 +20,8 @@ public class Manhattan {
             }
 
             double accuracy = (double) correctPredictions / testingData.length * 100;
-//            System.out.println("k value: " + k + "    accuracy:" + accuracy);
-            if (accuracy> best_prediction) {
 
+            if (accuracy> best_prediction) {
                 best_prediction = accuracy;
                 best_k = k;
             }
@@ -70,9 +73,10 @@ public class Manhattan {
     /*
         This deals with the arrays automatically.
         The neighbour furthest away from the current test feature is stored at k-1.
-        So we check if it's smaller than that value and if it is we replapce k-1 with the current distance.
+        So we check if it's smaller than that value and if it is we replace k-1 with the current distance.
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double current_distance, int index, int k) {
+        // if there are two neighbours with the same similarity, then flip a coin to see which one we keep
         if (current_distance == best_matches_num[k-1]) {
             double a = Math.random();
             if (a>.5) {
