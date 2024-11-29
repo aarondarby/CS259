@@ -106,6 +106,9 @@ public class Main {
         return feature;
     }
 
+    /*
+        Sorts array in ascending order
+     */
     static void arraySorter(double[] d) {
         int n = d.length;
         for (int i = 0; i < n - 1; i++) {
@@ -117,7 +120,6 @@ public class Main {
                     min_idx = j;
                 }
             }
-
             double temp = d[i];
             d[i] = d[min_idx];
             d[min_idx] = temp;
@@ -139,7 +141,6 @@ public class Main {
                 loadOddsGenreUtility(genre, total, liked);
             }
 
-
             // for each bin, finds the probability of liked and divides it by the probability of not liked to get the odds
             for (int i =0; i<oddsGenre.length; i++) {
                 double probOfNotLiked = ( total[i]-oddsGenre[i] ) / total[i];
@@ -148,6 +149,7 @@ public class Main {
                 }
                 if (oddsGenre[i] ==0) {
                     oddsGenre[i] = 0.01;
+                    continue;
                 }
                 oddsGenre[i] /= probOfNotLiked;
             }
@@ -254,6 +256,7 @@ public class Main {
         oddsUtility("Rotten Tomatoes", rottenTomatoesArray, labels);
         oddsUtility("Budget", budgetArray, labels);
         oddsUtility("Box Office", boxOfficeArray, labels);
+
 
     }
 
@@ -370,5 +373,6 @@ public class Main {
         Manhattan m = new Manhattan(trainingData, trainingLabels, testingData, testingLabels);
         Euclidean e = new Euclidean(trainingData, trainingLabels, testingData, testingLabels);
         Similarity s = new Similarity(trainingData,trainingLabels,testingData,testingLabels);
+
     }
 }
