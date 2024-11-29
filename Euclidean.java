@@ -1,26 +1,25 @@
 public class Euclidean {
 
+    /*
+        Will use the Euclidean distance to calculate the distance between training vectors and the
+        vector being tested. The sums with the smallest distance are the closest, these vectors will
+        then be used to predict whether the film will be liked.
+     */
     public Euclidean(double[][] trainingData, int[] trainingLabels, double[][] testingData, int[] testingLabels) {
-        // stores the best k value and the best prediction
         int best_k = 0;
         double best_prediction = 0.0;
 
         // tests for all possible (odd) k values
         for (int k = 1 ;k< testingData.length; k+=2) {
-
-
-            // Compute accuracy on the testing set
             int correctPredictions = 0;
             for (int i =0; i<testingData.length; i++) {
                 if (testingLabels[i] == knnClassify(trainingData,trainingLabels,testingData[i],k)) {
                     correctPredictions++;
                 }
             }
-
             double accuracy = (double) correctPredictions / testingData.length * 100;
-//            System.out.println("k value: " + k + "    accuracy:" + accuracy);
-            if (accuracy> best_prediction) {
 
+            if (accuracy> best_prediction) {
                 best_prediction = accuracy;
                 best_k = k;
             }
@@ -48,8 +47,6 @@ public class Euclidean {
 
         // goes through the rest of the training data
         for(int i = k; i < trainingData.length; i++) {
-
-
             double current_distance = 0.0;
             current_distance = euclidean_distance(testFeature, trainingData[i]);
 
@@ -57,30 +54,27 @@ public class Euclidean {
             array_utility(best_matches_index,best_matches_num,current_distance,i,k);
         }
 
-
-
-
-
         int num_pos = 0;
         int num_neg = 0;
         // goes through the k neighbours and checks their labels
         // if there are more positive labels than negative we return 1, else 0
         for (int i = 0; i < best_matches_index.length; i++) {
             int temp = trainingLabels[ best_matches_index[i] ];
-            if (temp ==1) {num_pos++;}
-            else {num_neg++;}
+            if (temp ==1) num_pos++;
+            else num_neg++;
         }
 
-        if (num_pos > num_neg) {return 1;}
-        else {return 0;}
+        if (num_pos > num_neg) return 1;
+        else return 0;
     }
 
     /*
         This deals with the arrays automatically.
         The neighbour furthest away from the current test feature is stored at k-1.
-        So we check if it's smaller than that value and if it is we replapce k-1 with the current distance.
+        So we check if it's smaller than that value and if it is we replace k-1 with the current distance.
      */
     static void array_utility(int[] best_matches_index, double[] best_matches_num, double current_distance, int index, int k) {
+        // if there are two neighbours with the same similarity, then flip a coin to see which one we keep
         if (current_distance == best_matches_num[k-1]) {
             double a = Math.random();
             if (a>.5) {
@@ -98,7 +92,7 @@ public class Euclidean {
 
     /*
         Sorts both the num array and index array.
-        The num array is sorted ascending, and the index is sorted to match it's corresponding number
+        The num array is sorted ascending, and the index is sorted to match its corresponding number
      */
     static void array_sorter(int[] best_matches_index, double[] best_matches_num) {
         int n = best_matches_num.length;
@@ -123,7 +117,7 @@ public class Euclidean {
     }
 
     /*
-    Using this as the distance formula should give a better result than what's in his slide.
+        Calculates the euclidean distance between two vectors
      */
     static double euclidean_distance(double[] u, double[] v) {
         double sum = 0.0;
